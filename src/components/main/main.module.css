@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1280px;
+  min-width: 1280px;
+  width: 100%;
+  box-sizing: border-box;
+}
