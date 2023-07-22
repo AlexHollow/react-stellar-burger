@@ -1,0 +1,7 @@
+.link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(242, 242, 243, 1);
+}
