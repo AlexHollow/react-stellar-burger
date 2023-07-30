@@ -1,0 +1,33 @@
+@keyframes rotation {
+  from {
+   transform: rotate(0deg);
+  }
+  to {
+   transform: rotate(360deg);
+  }
+}
+
+.loader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loaderContainer {
+  position: absolute;
+  min-width: 250px;
+  min-height: 250px;
+  border: 35px solid #333;
+  border-top: 35px solid #4C4CFF;
+  border-radius: 50%;
+  box-shadow: 0 0 30px #4C4CFF;
+  filter: drop-shadow(0 0 60px #4C4CFF);
+  animation: rotation 1s infinite linear;
+}
+
+.loaderText {
+  filter: drop-shadow(0 0 17px #4C4CFF);
+}

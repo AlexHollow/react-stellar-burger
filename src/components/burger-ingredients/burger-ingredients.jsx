@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./burger-ingredients.module.css";
-
 import { BurgerCard } from "./burger-ingredients-card/burger-ingredients-card";
-
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { ingredientPropType } from "../../utils/prop-types";
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function BurgerIngredients(props) {
+export function BurgerIngredients({ data, handleModalOpen }) {
 
-  let [type, setType] = useState('buns');
+  const [type, setType] = useState('buns');
 
-  const ingredients = props.data;
+  const ingredients = data;
 
   function handleScroll(evt) {
     document.getElementById(`${evt}`).scrollIntoView({ behavior: "smooth", block: "start"});
   }
 
   function handleTabChange(evt) {
-    setType(type = evt);
-    
+    setType(evt);
     handleScroll(evt);
   }
   
@@ -37,8 +37,11 @@ export function BurgerIngredients(props) {
           {ingredients.map((item) => {
             if (item.type === 'bun') {
               return (
-                <li key={item._id}>
-                  <BurgerCard image={item.image} name={item.name} price={item.price} />
+                <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+                  <BurgerCard image={item.image}
+                    name={item.name}
+                    price={item.price}
+                  />
                 </li>
               )
             }
@@ -50,8 +53,11 @@ export function BurgerIngredients(props) {
           {ingredients.map((item) => {
             if (item.type === 'sauce') {
               return (
-                <li key={item._id}>
-                  <BurgerCard image={item.image} name={item.name} price={item.price} />
+                <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+                  <BurgerCard image={item.image}
+                    name={item.name}
+                    price={item.price}
+                  />
                 </li>
               )
             }
@@ -63,8 +69,11 @@ export function BurgerIngredients(props) {
           {ingredients.map((item) => {
             if (item.type === 'main') {
               return (
-                <li key={item._id}>
-                  <BurgerCard image={item.image} name={item.name} price={item.price} />
+                <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+                  <BurgerCard image={item.image}
+                    name={item.name}
+                    price={item.price}
+                  />
                 </li>
               )
             }
@@ -75,3 +84,8 @@ export function BurgerIngredients(props) {
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType).isRequired,
+  handleModalOpen: PropTypes.func,
+};

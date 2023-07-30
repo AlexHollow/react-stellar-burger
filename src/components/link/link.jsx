@@ -1,5 +1,5 @@
-import React from "react";
 import styles from "./link.module.css"
+import PropTypes from "prop-types";
 
 export function Link(props) {
   return (
@@ -8,4 +8,11 @@ export function Link(props) {
       <p className={`text ${props.addStyle}`}>{props.children}</p>
     </a>
   );
+}
+
+Link.propTypes = {
+  link: PropTypes.string,
+  image: PropTypes.node,
+  addStyle: PropTypes.string,
+  children: PropTypes.string
 }

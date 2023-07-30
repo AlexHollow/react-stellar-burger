@@ -1,11 +1,12 @@
-import React, { useState } from "react";
 import styles from "./burger-constructor.module.css";
-
+import { ingredientPropType } from "../../utils/prop-types";
+import { OrderDetails } from "../order-details/order-details";
+import PropTypes from "prop-types";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function BurgerConstructor(props) {
+export function BurgerConstructor({ data, handleModalOpen }) {
 
-  const ingredients = props.data;
+  const ingredients = data;
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
@@ -34,7 +35,9 @@ export function BurgerConstructor(props) {
               if (item.type !== 'bun') {
                 return (
                   <li key={item._id} className={styles.listItem}>
-                    <DragIcon />
+                    <div className={styles.dragIcon}>
+                      <DragIcon />
+                    </div>
                     <ConstructorElement
                       text={item.name}
                       price={item.price}
@@ -71,8 +74,13 @@ export function BurgerConstructor(props) {
           <span className="text text_type_digits-medium">0</span>
           <CurrencyIcon />
         </div>
-        <Button htmlType="button" type="primary" size="large">Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="large" onClick={() => {handleModalOpen(<OrderDetails />)}}>Оформить заказ</Button>
       </div>
     </section>
   )
+}
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType).isRequired,
+  handleModalOpen: PropTypes.func,
 }

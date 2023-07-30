@@ -1,8 +1,5 @@
-import React from "react";
 import styles from "./header.module.css";
-
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { Link } from "../link/link";
 
 export function Header() {
@@ -29,15 +26,15 @@ export function Header() {
           <ul className={styles.list}>
 
             <li className={styles.listItem}>
-              <Link link="" addStyle={'text_type_main-default'} image={ icons.burger.normal }>Конструктор</Link>
+              <Link link="#" addStyle={'text_type_main-default'} image={ icons.burger.normal }>Конструктор</Link>
             </li>
 
             <li className={styles.listItem}>
-              <Link link="" addStyle={'text_type_main-default text_color_inactive'} image={ icons.list.inactive }>Лента заказов</Link>
+              <Link link="#" addStyle={'text_type_main-default text_color_inactive'} image={ icons.list.inactive }>Лента заказов</Link>
             </li>
 
             <li className={styles.listItem}>
-              <Link link="" addStyle={'text_type_main-default text_color_inactive'} image={ icons.profile.inactive }>Личный кабинет</Link>
+              <Link link="#" addStyle={'text_type_main-default text_color_inactive'} image={ icons.profile.inactive }>Личный кабинет</Link>
             </li>
 
           </ul>
