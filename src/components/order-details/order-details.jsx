@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import styles from './order-details.module.css';
 import doneImage from '../../images/done.jpg';
 
-export function OrderDetails() {
+function OrderDetails() {
   return (
     <div className={styles.wrapper}>
       <p className={`${styles.orderNum} text text_type_digits-large`}>034536</p>
@@ -12,3 +13,5 @@ export function OrderDetails() {
     </div>
   );
 }
+
+export default memo(OrderDetails);

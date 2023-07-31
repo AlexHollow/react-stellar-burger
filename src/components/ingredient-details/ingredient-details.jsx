@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import styles from './ingredient-details.module.css';
 import { ingredientPropType } from "../../utils/prop-types";
 
-export function IngredientDetails({ ingredient }) {
+function IngredientDetails({ ingredient }) {
   return (
     <div className={`${styles.wrapper} pl-10 pr-10 pb-15`}>
       <img className={styles.image} src={ingredient.image} alt={ingredient.name} />
@@ -36,3 +37,5 @@ export function IngredientDetails({ ingredient }) {
 IngredientDetails.propTypes = {
   ingredient: ingredientPropType.isRequired
 }
+
+export default memo(IngredientDetails);

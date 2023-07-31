@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import styles from "./burger-ingredients-card.module.css";
 import PropTypes from "prop-types";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function BurgerCard(props) {
+function BurgerCard(props) {
   return (
     <div className={styles.card}>
       <Counter count={1} size="default" />
@@ -17,7 +18,9 @@ export function BurgerCard(props) {
 }
 
 BurgerCard.propTypes = {
-  image: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
 }
+
+export default memo(BurgerCard);

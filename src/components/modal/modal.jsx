@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styles from './modal.module.css';
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
-export function Modal({ children, onClose, modalTitle }) {
+function Modal({ children, onClose, modalTitle }) {
 
   useEffect(() => {
     const handleEscapePress = (event) => {
@@ -22,10 +23,10 @@ export function Modal({ children, onClose, modalTitle }) {
 
   return ReactDOM.createPortal (
     (
-      <div className={styles.modal} onClick={onClose}>
-        <div className={styles.content} onClick={(evt) => {
-          evt.stopPropagation();
-        }}>
+      <div className={styles.modal}>
+        <ModalOverlay handleClose={onClose} />
+
+        <div className={styles.content}>
           <header className={`${styles.header} ${modalTitle === 'Детали ингредиента' ? 'pt-10 pl-10 pr-10' : 'pt-15 pl-10 pr-10'}`}>
             {
               modalTitle && <p className='text text_type_main-large'>{modalTitle}</p>
@@ -43,6 +44,8 @@ export function Modal({ children, onClose, modalTitle }) {
 }
 
 Modal.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired
 }
+
+export default memo(Modal);

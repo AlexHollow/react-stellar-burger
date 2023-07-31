@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { Header } from "../header/header";
 import { Main } from "../main/main";
 import { Loader } from "../loader/loader";
+import { Api } from "../../utils/burger-api";
 
-const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
+const API_URL = 'https://norma.nomoreparties.space/api';
+
+const api = new Api(API_URL);
 
 function App() {
 
@@ -15,19 +18,13 @@ function App() {
   });
 
   useEffect(() => {
-    getData(apiUrl);
+    getData();
   }, []);
 
-  function getData(url) {
+  function getData() {
     setState({...state, isLoading: true});
 
-    fetch(url)
-    .then(res => {
-      if (res.ok ) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    api.getIngredients()
     .then((data) => {
       setState({...state, isLoading: false, data: data.data});
     })

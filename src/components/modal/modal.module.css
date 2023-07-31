@@ -8,7 +8,6 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, .6);
 }
 
 .content {
@@ -20,6 +19,7 @@
       0px 4px 8px 0px rgba(0, 0, 0, 0.04),
       0px 16px 24px 0px rgba(0, 0, 0, 0.04),
       0px 24px 32px 0px rgba(0, 0, 0, 0.04);
+  z-index: 1100;
 }
 
 .header {

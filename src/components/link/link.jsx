@@ -1,7 +1,8 @@
+import { memo } from "react";
 import styles from "./link.module.css"
 import PropTypes from "prop-types";
 
-export function Link(props) {
+function Link(props) {
   return (
     <a className={`${styles.link} mt-4 mr-5 mb-4 ml-5`} href={props.link}>
       {props.image}
@@ -11,8 +12,10 @@ export function Link(props) {
 }
 
 Link.propTypes = {
-  link: PropTypes.string,
-  image: PropTypes.node,
-  addStyle: PropTypes.string,
-  children: PropTypes.string
+  link: PropTypes.string.isRequired,
+  image: PropTypes.node.isRequired,
+  addStyle: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired
 }
+
+export default memo(Link);
