@@ -1,4 +1,4 @@
-import { memo, useState, useMemo } from "react";
+import { memo, useState, useMemo } from 'react';
 import styles from "./burger-ingredients.module.css";
 import BurgerCard from "./burger-ingredients-card/burger-ingredients-card";
 import IngredientDetails from "../ingredient-details/ingredient-details";
