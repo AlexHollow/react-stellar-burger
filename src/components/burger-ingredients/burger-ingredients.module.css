@@ -1,0 +1,24 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+}
+
+.tabs {
+  display: flex;
+}
+
+.container {
+  max-height: 595px;
+  overflow-y: auto;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+  row-gap: 32px;
+  list-style-type: none;
+  scroll-margin: 60px;
+}
