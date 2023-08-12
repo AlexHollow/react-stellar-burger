@@ -1,14 +1,13 @@
 import { memo, useMemo } from 'react';
 import styles from "./burger-constructor.module.css";
 import { ingredientPropType } from "../../utils/prop-types";
-import OrderDetails from "../order-details/order-details";
 import PropTypes from "prop-types";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ data, handleModalOpen }) {
+function BurgerConstructor({ ingredients, handleOrder, cartDispatcher, totalPrice }) {
 
-  const buns = useMemo(() => data.filter((item) => item.type === 'bun'), [data]);
-  const mains = useMemo(() => data.filter((item) => item.type !== 'bun'), [data]);
+  const buns = useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
+  const mains = useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
 
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
@@ -23,7 +22,7 @@ function BurgerConstructor({ data, handleModalOpen }) {
                 price={item.price}
                 thumbnail={item.image}
                 extraClass="ml-8"
-                key={item._id}
+                key={item.key}
               />
             )
           })
@@ -33,7 +32,7 @@ function BurgerConstructor({ data, handleModalOpen }) {
           {
             mains.map((item) => {
               return (
-                <li key={item._id} className={styles.listItem}>
+                <li key={item.key} className={styles.listItem}>
                   <div className={styles.dragIcon}>
                     <DragIcon />
                   </div>
@@ -41,6 +40,7 @@ function BurgerConstructor({ data, handleModalOpen }) {
                     text={item.name}
                     price={item.price}
                     thumbnail={item.image}
+                    handleClose={() => cartDispatcher({ type: 'remove', payload: item })}
                   />
                 </li>
               )
@@ -58,7 +58,7 @@ function BurgerConstructor({ data, handleModalOpen }) {
                 price={item.price}
                 thumbnail={item.image}
                 extraClass="ml-8"
-                key={item._id}
+                key={item.key}
               />
             )
           })
@@ -67,18 +67,24 @@ function BurgerConstructor({ data, handleModalOpen }) {
 
       <div className={`${styles.totalContainer} pr-4`}>
         <div className={styles.totalPrice}>
-          <span className="text text_type_digits-medium">0</span>
+          <span className="text text_type_digits-medium">{totalPrice}</span>
           <CurrencyIcon />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => {handleModalOpen(<OrderDetails />)}}>Оформить заказ</Button>
+        <Button disabled={ingredients.length <= 0 ? true : false}
+          htmlType="button"
+          type="primary"
+          size="large"
+          onClick={handleOrder}>Оформить заказ</Button>
       </div>
     </section>
   )
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired,
-  handleModalOpen: PropTypes.func.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  handleOrder: PropTypes.func.isRequired,
+  cartDispatcher: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
 }
 
 
