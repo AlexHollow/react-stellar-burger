@@ -1,36 +1,36 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import styles from "./burger-constructor.module.css";
 import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ ingredients, handleOrder, cartDispatcher, totalPrice }) {
+function BurgerConstructor({ data, handleOrder, cartDispatcher, totalPrice }) {
 
-  const buns = useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
-  const mains = useMemo(() => ingredients.filter((item) => item.type !== 'bun'), [ingredients]);
-
+  // const { bun, ingredients } = useMemo(() => {
+  //   return {
+  //     bun: data.find(item => item.type === 'bun'),
+  //     ingredients: data.filter(item => item.type !== 'bun'),
+  //   };
+  // }, [data]);
+  
   return (
     <section className={`${styles.section} pt-25 pl-4`}>
       <div className={styles.container}>
         {
-          buns.map((item) => {
-            return (
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={`${item.name} (верх)`}
-                price={item.price}
-                thumbnail={item.image}
-                extraClass="ml-8"
-                key={item.key}
-              />
-            )
-          })
+          !data.bun ? '' :
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${data.bun.name} (верх)`}
+              price={data.bun.price}
+              thumbnail={data.bun.image}
+              extraClass="ml-8"
+            />  
         }
 
         <ul className={`${styles.list} custom-scroll`}>
           {
-            mains.map((item) => {
+            data.ingredients.map((item) => {
               return (
                 <li key={item.key} className={styles.listItem}>
                   <div className={styles.dragIcon}>
@@ -49,19 +49,15 @@ function BurgerConstructor({ ingredients, handleOrder, cartDispatcher, totalPric
         </ul>
 
         {
-          buns.map((item) => {
-            return (
-              <ConstructorElement
-                type="bottom"
-                isLocked={true}
-                text={`${item.name} (низ)`}
-                price={item.price}
-                thumbnail={item.image}
-                extraClass="ml-8"
-                key={item.key}
-              />
-            )
-          })
+          !data.bun ? '' :
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${data.bun.name} (низ)`}
+              price={data.bun.price}
+              thumbnail={data.bun.image}
+              extraClass="ml-8"
+            />
         }
       </div>
 
@@ -70,7 +66,7 @@ function BurgerConstructor({ ingredients, handleOrder, cartDispatcher, totalPric
           <span className="text text_type_digits-medium">{totalPrice}</span>
           <CurrencyIcon />
         </div>
-        <Button disabled={ingredients.length <= 0 ? true : false}
+        <Button disabled={data.ingredients.length <= 0 || !data.bun ? true : false}
           htmlType="button"
           type="primary"
           size="large"
@@ -81,7 +77,10 @@ function BurgerConstructor({ ingredients, handleOrder, cartDispatcher, totalPric
 }
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  data: PropTypes.shape({
+    bun: ingredientPropType,
+    ingredients: PropTypes.arrayOf(ingredientPropType.isRequired),
+  }).isRequired,
   handleOrder: PropTypes.func.isRequired,
   cartDispatcher: PropTypes.func.isRequired,
   totalPrice: PropTypes.number.isRequired,

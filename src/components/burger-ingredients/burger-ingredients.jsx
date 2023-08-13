@@ -1,13 +1,13 @@
 import { memo, useState, useMemo, useContext } from 'react';
 import styles from "./burger-ingredients.module.css";
 import BurgerCard from "./burger-ingredients-card/burger-ingredients-card";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+// import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DataContext } from '../../services/data-context';
 import { v4 as uuidv4 } from 'uuid';
 
-function BurgerIngredients({ handleModalOpen, cartDispatcher }) {
+function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
 
   const data = useContext(DataContext);
 
@@ -41,7 +41,11 @@ function BurgerIngredients({ handleModalOpen, cartDispatcher }) {
         <ul id="buns" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {buns.map((item) => {
             return (
-              // <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+              // <li key={item._id} onClick={() => modalDispatcher({
+              //   type: 'open',
+              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
+              // })}
+              // >
               <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
                 <BurgerCard
                   image={item.image}
@@ -57,7 +61,11 @@ function BurgerIngredients({ handleModalOpen, cartDispatcher }) {
         <ul id="sauces" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {sauces.map((item) => {
             return (
-              // <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+              // <li key={item._id} onClick={() => modalDispatcher({
+              //   type: 'open',
+              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
+              // })}
+              // >
               <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
                 <BurgerCard
                   image={item.image}
@@ -73,7 +81,11 @@ function BurgerIngredients({ handleModalOpen, cartDispatcher }) {
         <ul id="fillings" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {mains.map((item) => {
             return (
-              // <li key={item._id} onClick={() => handleModalOpen(<IngredientDetails ingredient={item} />, 'Детали ингредиента')}>
+              // <li key={item._id} onClick={() => modalDispatcher({
+              //   type: 'open',
+              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
+              // })}
+              // >
               <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
                 <BurgerCard
                   image={item.image}
@@ -91,7 +103,7 @@ function BurgerIngredients({ handleModalOpen, cartDispatcher }) {
 }
 
 BurgerIngredients.propTypes = {
-  handleModalOpen: PropTypes.func.isRequired,
+  modalDispatcher: PropTypes.func.isRequired,
   cartDispatcher: PropTypes.func.isRequired,
 };
 
