@@ -1,9 +1,10 @@
 import styles from "./app.module.css";
 import { useEffect, useState } from "react";
 import { Header } from "../header/header";
-import { Main } from "../main/main";
+import Main from "../main/main";
 import { Loader } from "../loader/loader";
 import { Api } from "../../utils/burger-api";
+import { DataContext } from "../../services/data-context";
 
 const API_URL = 'https://norma.nomoreparties.space/api';
 
@@ -37,10 +38,12 @@ function App() {
     <>
       <div className={styles.app}>
         <Header />
-        {
-          (!state.isLoading && state.data.length > 0) ?
-          <Main data={state.data} /> : <Loader />
-        }
+        <DataContext.Provider value={state.data}>
+          {
+            (!state.isLoading && state.data.length > 0) ?
+              <Main api={api} /> : <Loader />
+          }
+        </DataContext.Provider>
       </div>
     </>
   );
