@@ -1,28 +1,33 @@
-export class Api {
-  constructor(url) {
-    this.url = url;
-  }
+const config = {
+  URL: 'https://norma.nomoreparties.space/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+}
 
-  _handleServerResponse(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+//Проверка ответа от сервера
+function handleServerResponse(res) {
+  if (res.ok) {
+    return res.json();
   }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
 
-  getIngredients() {
-    return fetch(`${this.url}/ingredients`)
-      .then((res) => this._handleServerResponse(res))
-  }
+//Запрос на получение ингредиентов
+export function getData() {
+  return fetch(`${config.URL}/ingredients`, {
+    method: 'GET',
+    headers: config.headers,
+  })
+    .then((res) => handleServerResponse(res))
+}
 
-  postOrder(order) {
-    return fetch(`${this.url}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ingredients: order}),
-    })
-    .then((res) => this._handleServerResponse(res))
-  }
+//Запрос на отправку заказа
+export function postOrder(order) {
+  return fetch(`${config.URL}/orders`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({ ingredients: order }),
+  })
+    .then((res) => handleServerResponse(res))
 }

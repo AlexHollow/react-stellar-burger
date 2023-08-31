@@ -10,7 +10,7 @@
   text-align: center;
   overflow: hidden;
   cursor: pointer;
-  transition: .3s;
+  transition: filter transform .3s;
 }
 
 .card:hover {
@@ -19,6 +19,11 @@
 
 .card:hover .image {
   transform: scale(1.1);
+}
+
+.cardIsDragging {
+  outline: 2px dashed hsla(240, 100%, 65%, 0.7);
+  border-radius: 10px;
 }
 
 .image {

@@ -1,49 +1,29 @@
 import styles from "./app.module.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Header } from "../header/header";
 import Main from "../main/main";
 import { Loader } from "../loader/loader";
-import { Api } from "../../utils/burger-api";
-import { DataContext } from "../../services/data-context";
-
-const API_URL = 'https://norma.nomoreparties.space/api';
-
-const api = new Api(API_URL);
+import { fetchIngredients } from "../../services/actions/ingredientsActions";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
 
-  const [state, setState] = useState({
-    isLoading: false,
-    hasError: false,
-    data: [],
-  });
+  const { ingredients, isLoading } = useSelector(state => state.ingredients);
+  const orderIsLoading = useSelector(state => state.order.isLoading);
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getData();
+    dispatch(fetchIngredients());
   }, []);
-
-  function getData() {
-    setState({...state, isLoading: true});
-
-    api.getIngredients()
-    .then((data) => {
-      setState({...state, isLoading: false, data: data.data});
-    })
-    .catch(() => {
-      setState({...state, isLoading: false, hasError: true});
-    })
-  }
 
   return (
     <>
       <div className={styles.app}>
         <Header />
-        <DataContext.Provider value={state.data}>
-          {
-            (!state.isLoading && state.data.length > 0) ?
-              <Main api={api} /> : <Loader />
-          }
-        </DataContext.Provider>
+        {
+          (!isLoading && ingredients.length > 0 && !orderIsLoading) ? <Main /> : <Loader />
+        }
       </div>
     </>
   );
