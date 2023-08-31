@@ -1,6 +1,8 @@
 import { memo, useRef } from 'react';
 import styles from "./burger-constructor-card.module.css";
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../../utils/prop-types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { removeIngredient, shiftIngredient } from '../../../services/actions/cartActions';
 import { useDrag, useDrop } from "react-dnd";
@@ -63,5 +65,12 @@ function BurgerConstructorCard({ item, id, index }) {
     </li>
   )
 }
+
+BurgerConstructorCard.propTypes = {
+  item: ingredientPropType.isRequired,
+  id: PropTypes.string,
+  index: PropTypes.number.isRequired,
+}
+
 
 export default memo(BurgerConstructorCard);

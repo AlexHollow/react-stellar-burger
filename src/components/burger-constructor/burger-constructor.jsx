@@ -10,7 +10,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from '../order-details/order-details';
 import BurgerConstructorCard from '../burger-constructor/burger-constructor-card/burger-constructor-card';
 import { postOrder } from "../../utils/burger-api";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
