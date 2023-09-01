@@ -1,4 +1,4 @@
-// import { postOrder } from "../../utils/burger-api";
+import { postOrder } from "../../utils/burger-api";
 
 export const ORDER_NUM_REQUEST = 'ORDER_REQUEST';
 export const ORDER_NUM_SUCCESS = 'ORDER_SUCCESS';
@@ -26,12 +26,16 @@ export function getOrderNumFailed() {
   }
 }
 
-// export function fetchOrder(order) {
-//   return function (dispatch) {
-//     dispatch(getOrderNumRequest());
+export function fetchOrder(order, resolveHandler) {
+  return function (dispatch) {
+    dispatch(getOrderNumRequest());
 
-//     postOrder(order)
-//       .then((res) => dispatch(getOrderNumSuccess(res.order.number)))
-//       .catch(() => dispatch(getOrderNumFailed()))
-//   }
-// }
+      postOrder(order)
+      .then((res) => {
+        dispatch(getOrderNumSuccess(res.order.number));
+        dispatch(resolveHandler);
+      })
+      .catch(() => dispatch(getOrderNumFailed()))
+
+  }
+}
