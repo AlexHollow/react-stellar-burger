@@ -3,13 +3,12 @@ import styles from "./burger-constructor.module.css";
 import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from 'react-redux';
 import { addIngredient, resetCart } from '../../services/actions/cartActions';
-import { getOrderNumRequest, getOrderNumSuccess, getOrderNumFailed } from '../../services/actions/orderActions';
+import { fetchOrder } from '../../services/actions/orderActions';
 import { openModal } from '../../services/actions/modalActions';
 import Modal from '../modal/modal';
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from '../order-details/order-details';
 import BurgerConstructorCard from '../burger-constructor/burger-constructor-card/burger-constructor-card';
-import { postOrder } from "../../utils/burger-api";
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -50,15 +49,10 @@ function BurgerConstructor() {
 
   //Отправка заказа на сервер
   function handleOrder() {
-      dispatch(getOrderNumRequest());
-      
-      postOrder(order)
-        .then((res) => {
-          dispatch(getOrderNumSuccess(res.order.number));
-          dispatch(openModal(' ', ' '));
-          dispatch(resetCart());
-        })
-        .catch(() => dispatch(getOrderNumFailed()))
+    dispatch(fetchOrder(order, () => {
+      dispatch(openModal(' ', ' '));
+      dispatch(resetCart());
+    }));
   }
   
   return (
