@@ -1,0 +1,16 @@
+.dragIcon:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 7px #4C4CFF);
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 20px;
+}
+
+.listItemDrop {
+  background-color: hsla(240, 100%, 65%, 0.2);
+}

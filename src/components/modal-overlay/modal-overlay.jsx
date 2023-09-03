@@ -1,15 +1,15 @@
 import { memo } from "react";
 import styles from "./modal-overlay.module.css"
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../services/actions/modalActions";
 
-function ModalOverlay({ modalDispatcher }) {
+function ModalOverlay() {
+
+  const dispatch = useDispatch();
+
   return (
-    <div className={styles.overlay} onClick={() => modalDispatcher({ type: 'close' })}></div>
+    <div className={styles.overlay} onClick={() => dispatch(closeModal())}></div>
   );
-}
-
-ModalOverlay.propTypes = {
-  modalDispatcher: PropTypes.func.isRequired
 }
 
 export default memo(ModalOverlay);

@@ -1,15 +1,19 @@
-import { memo, useState, useMemo, useContext } from 'react';
+import { memo, useState, useMemo, useEffect } from 'react';
 import styles from "./burger-ingredients.module.css";
 import BurgerCard from "./burger-ingredients-card/burger-ingredients-card";
-// import IngredientDetails from "../ingredient-details/ingredient-details";
-import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DataContext } from '../../services/data-context';
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
+import { openModal } from '../../services/actions/modalActions';
 
-function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
+function BurgerIngredients() {
 
-  const data = useContext(DataContext);
+  const data = useSelector(state => state.ingredients.ingredients);
+  const dispatch = useDispatch();
+
+  const [bunsRef, bunsInView] = useInView({ threshold: 0 });
+  const [saucesRef, saucesInView] = useInView({ threshold: 0 });
+  const [fillingsRef, fillingsInView] = useInView({ threshold: 0 });
 
   const [type, setType] = useState('buns');
 
@@ -26,6 +30,16 @@ function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
     handleScroll(evt);
   }
 
+  useEffect(() => {
+    if (bunsInView) {
+      setType("buns");
+    } else if (saucesInView) {
+      setType("sauces");
+    } else if (fillingsInView) {
+      setType("fillings");
+    }
+  }, [bunsInView, saucesInView, fillingsInView]);
+
   return (
     <section className={styles.section}>
       <h2 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h2>
@@ -38,19 +52,12 @@ function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
 
       <div className={`${styles.container} custom-scroll`}>
         <h3 className="text text_type_main-medium mb-6">Булки</h3>
-        <ul id="buns" className={`${styles.list} pl-4 pr-4 mb-10`}>
+        <ul ref={bunsRef} id="buns" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {buns.map((item) => {
             return (
-              // <li key={item._id} onClick={() => modalDispatcher({
-              //   type: 'open',
-              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
-              // })}
-              // >
-              <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
+              <li key={item._id} onClick={() => dispatch(openModal({ content: item, title: 'Детали ингредиента' }))}>
                 <BurgerCard
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
+                  ingredient={item}
                 />
               </li>
             )
@@ -58,19 +65,12 @@ function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
         </ul>
 
         <h3 className="text text_type_main-medium mb-6">Соусы</h3>
-        <ul id="sauces" className={`${styles.list} pl-4 pr-4 mb-10`}>
+        <ul ref={saucesRef} id="sauces" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {sauces.map((item) => {
             return (
-              // <li key={item._id} onClick={() => modalDispatcher({
-              //   type: 'open',
-              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
-              // })}
-              // >
-              <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
+              <li key={item._id} onClick={() => dispatch(openModal({ content: item, title: 'Детали ингредиента' }))}>
                 <BurgerCard
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
+                  ingredient={item}
                 />
               </li>
             )
@@ -78,19 +78,12 @@ function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
         </ul>
 
         <h3 className="text text_type_main-medium mb-6">Начинки</h3>
-        <ul id="fillings" className={`${styles.list} pl-4 pr-4 mb-10`}>
+        <ul ref={fillingsRef} id="fillings" className={`${styles.list} pl-4 pr-4 mb-10`}>
           {mains.map((item) => {
             return (
-              // <li key={item._id} onClick={() => modalDispatcher({
-              //   type: 'open',
-              //   payload: { content: <IngredientDetails ingredient={item} />, title: 'Детали ингредиента' }
-              // })}
-              // >
-              <li key={item._id} onClick={() => cartDispatcher({ type: 'add', payload: { ...item, key: uuidv4() } })}>
+              <li key={item._id} onClick={() => dispatch(openModal({ content: item, title: 'Детали ингредиента' }))}>
                 <BurgerCard
-                  image={item.image}
-                  name={item.name}
-                  price={item.price}
+                  ingredient={item}
                 />
               </li>
             )
@@ -101,11 +94,5 @@ function BurgerIngredients({ modalDispatcher, cartDispatcher }) {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  modalDispatcher: PropTypes.func.isRequired,
-  cartDispatcher: PropTypes.func.isRequired,
-};
-
 
 export default memo(BurgerIngredients);

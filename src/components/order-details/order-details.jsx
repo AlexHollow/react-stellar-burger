@@ -1,9 +1,12 @@
 import { memo } from 'react';
 import styles from './order-details.module.css';
 import doneImage from '../../images/done.jpg';
-import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
-function OrderDetails({ orderNum }) {
+function OrderDetails() {
+
+  const orderNum = useSelector(state => state.order.orderNum);
+
   return (
     <div className={styles.wrapper}>
       <p className={`${styles.orderNum} text text_type_digits-large`}>{orderNum}</p>
@@ -13,10 +16,6 @@ function OrderDetails({ orderNum }) {
       <p className="text text_type_main-default text_color_inactive pb-30">Дождитесь готовности на орбитальной станции</p>
     </div>
   );
-}
-
-OrderDetails.propTypes = {
-  orderNum: PropTypes.number.isRequired,
 }
 
 export default memo(OrderDetails);
